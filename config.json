@@ -1,0 +1,35 @@
+{
+    "dam" :
+    {   "startDate" : {
+        "year" : 2010,
+        "month" : 6,
+        "day" : 1
+        },
+        "endDate" : {
+            "year" : 2010,
+            "month" : 12,
+            "day" : 31
+        },
+        "serviceKey" : "(APIkey)",
+        "damName" : "합천",
+        "url" : "http://opendata.kwater.or.kr/openapi-data/service/pubd/dam/multipurPoseDam/list",
+        "dataPath" : "./dam_dataset"
+    },
+
+    "weather" : {
+        "startDate" : {
+            "year" : 2016,
+            "month" : 1,
+            "day" : 1
+        },
+        "endDate" : {
+            "year" : 2012,
+            "month" : 12,
+            "day" : 31
+        },
+        "serviceKey" : "(APIkey)",
+        "latitude" : "35.559112352621",
+        "longitude" : "128.09492047467",
+        "url" : "http://apis.data.go.kr/B090041/openapi/service/SrAltudeInfoService/getAreaSrAltudeInfo?&locdate={0}&location=대구&ServiceKey={1}"
+    }
+}
