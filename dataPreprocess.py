@@ -2,6 +2,36 @@ import pandas as pd
 import numpy as np
 import os
 
+class damPreprocess:
+    def __init__(self, dataPath):
+        self.dataPath = dataPath
+
+    def dataLoad(self):
+        data = pd.read_csv(self.dataPath, encoding='utf-8', low_memory=False)
+        if 'Unnamed: 0' in data.columns:
+            data.drop(['Unnamed: 0'], axis=1, inplace=True)
+        return data
+
+    def finalPreprocess(self):
+        data = self.dataLoad()
+        data = data.dropna(subset=['시간'], how='any', axis=0)
+        data = data.drop(data.columns[-1], axis=1) # 0-th column(index) remove
+
+        data['저수위(현재)'] = data['저수위(현재)'].str.replace(',', '').astype(float)
+        data['발전량(실적)'] = data['발전량(실적)'].str.replace(',', '').astype(float)
+        data['전일방류량(본댐)'] = data['전일방류량(본댐)'].str.replace(',', '').astype(float)
+        data['전일방류량(조정지)'] = data['전일방류량(조정지)'].str.replace(',', '').astype(float)
+        data['전년누계강우량'] = data['전년누계강우량'].str.replace(',', '').astype(float)
+        data['금년누계강우량'] = data['금년누계강우량'].str.replace(',', '').astype(float)
+        data['예년누계강우량'] = data['예년누계강우량'].str.replace(',', '').astype(float)
+        data['전일유입량'] = data['전일유입량'].str.replace(',', '').astype(float)
+        data['연간발전계획'] = data['연간발전계획'].str.replace(',', '').astype(float)
+        data['발전량(계획)'] = data['발전량(계획)'].str.replace(',', '').astype(float)
+        data['시간'] = pd.to_datetime(data['시간'])
+        # data = data.set_index(keys='시간')
+        return data
+
+
 class weatherPreprocess:
     def __init__(self, dataPath, startYear, endYear):
         # startYear : 1990
@@ -114,10 +144,14 @@ class sunPreprocess:
 
 
 if __name__ == "__main__":
+    damProcessor = damPreprocess("./data/합천다목적댐_원본.csv")
+    damData = damProcessor.finalPreprocess()
+    damData.to_csv("./data/합천다목적댐_수정.csv", index=False, encoding="utf-8-sig")
+
     weatherProcessor = weatherPreprocess("./weather_dataset", 1990, 2024)
     weatherData = weatherProcessor.finalPreprocess()
-    weatherData.to_csv("일별_합천기상데이터.csv", index=False, encoding="utf-8-sig")
+    weatherData.to_csv("./data/일별_합천기상데이터.csv", index=False, encoding="utf-8-sig")
 
-    sunProcessor = sunPreprocess("태양고도데이터.csv")
+    sunProcessor = sunPreprocess("./data/태양고도데이터.csv")
     sunData = sunProcessor.finalPreprocess()
-    sunData["남중고도"].to_csv("태양남중고도데이터.csv", encoding="utf-8-sig", index=False)
+    sunData["남중고도"].to_csv("./data/태양남중고도데이터.csv", encoding="utf-8-sig", index=False)

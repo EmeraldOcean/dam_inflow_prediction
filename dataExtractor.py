@@ -152,7 +152,7 @@ class damDataExtract:
             # print(file_name)
             tmp = pd.read_csv(file, encoding="utf-8")
             total = pd.concat([total, tmp], ignore_index=True)
-        total.to_csv("합천다목적댐_원본.csv", index=False, encoding="utf-8-sig")
+        total.to_csv("./data/합천다목적댐_원본.csv", index=False, encoding="utf-8-sig")
 
 
 class weatherExtract:
@@ -196,7 +196,7 @@ class weatherExtract:
                 df = pd.concat([df, tmp])
             except:
                 pass
-            df.to_csv("태양고도데이터.csv", index=False, encoding="utf-8-sig")
+            df.to_csv("./data/태양고도데이터.csv", index=False, encoding="utf-8-sig")
 
 
 if __name__ == "__main__":
